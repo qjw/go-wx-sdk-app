@@ -1,0 +1,193 @@
+login:
+  description: 描述
+  summary: 摘要
+  tags:
+    - 测试
+  parameters:
+    - in: query
+      name: ab
+      type: string
+    - description: 111
+      in: path
+      name: cd
+      type: string
+  responses:
+    200:
+      schema:
+        properties:
+          aaa:
+            description: description
+            type: string
+          bbb:
+            description: fasdfasdf
+            type: array
+            items:
+              description: description
+              type: string
+          ccc:
+            description: fasdfasdf
+            type: object
+            properties:
+              aaa:
+                description: description
+                type: string
+              bbb:
+                description: description
+                type: string
+show_qrcode:
+  summary: 根据ticket获取实际的二维码图片
+  tags:
+    - 二维码
+  parameters:
+    - in: query
+      name: ticket
+      type: string
+  produces:
+    - image/png
+    - image/jpg
+    - image/jpeg
+    - image/gif
+  responses:
+    200:
+      type: file
+upload_tmp_material:
+  summary: 上传临时素材
+  tags:
+    - 素材管理
+  parameters:
+    - name: file
+      in: formData
+      description: 待上传的文件
+      required: true
+      type: file
+    - name: type
+      in: formData
+      description: 类型,image/voice/video/thumb
+      type: string
+      required: true
+  consumes:
+    - multipart/form-data
+  responses:
+    200:
+      schema:
+        properties:
+          result:
+            description: 错误码，默认0，成功
+            type: integer
+          message:
+            description: 错误内容，默认OK
+            type: string
+get_tmp_material:
+  summary: 获取临时素材
+  tags:
+    - 素材管理
+  parameters:
+    - in: query
+      name: media_id
+      type: string
+  produces:
+    - image/png
+    - image/jpg
+    - image/jpeg
+    - image/gif
+  responses:
+    200:
+      type: file
+upload_material:
+  summary: 上传永久素材
+  tags:
+    - 素材管理
+  parameters:
+    - name: file
+      in: formData
+      description: 待上传的文件
+      required: true
+      type: file
+    - name: type
+      in: formData
+      description: 类型,image/voice/thumb
+      type: string
+      required: true
+  consumes:
+    - multipart/form-data
+  responses:
+    200:
+      schema:
+        properties:
+          result:
+            description: 错误码，默认0，成功
+            type: integer
+          message:
+            description: 错误内容，默认OK
+            type: string
+
+upload_video_material:
+  summary: 上传永久视频素材
+  tags:
+    - 素材管理
+  parameters:
+    - name: file
+      in: formData
+      description: 待上传的视频文件
+      required: true
+      type: file
+    - name: title
+      in: formData
+      description: 视频名称
+      type: string
+      required: true
+    - name: description
+      in: formData
+      description: 视频描述
+      required: true
+      type: string
+  consumes:
+    - multipart/form-data
+  responses:
+    200:
+      schema:
+        properties:
+          result:
+            description: 错误码，默认0，成功
+            type: integer
+          message:
+            description: 错误内容，默认OK
+            type: string
+get_material:
+  summary: 获取素材
+  tags:
+    - 素材管理
+  parameters:
+    - in: query
+      name: media_id
+      type: string
+  produces:
+    - image/png
+    - image/jpg
+    - image/jpeg
+    - image/gif
+  responses:
+    200:
+      type: file
+upload_article_image:
+  summary: 上传图文的图片素材
+  tags:
+    - 素材管理
+  parameters:
+    - name: file
+      in: formData
+      description: 待上传的文件
+      required: true
+      type: file
+  consumes:
+    - multipart/form-data
+  responses:
+    200:
+      schema:
+        properties:
+          result:
+            description: 错误码，默认0，成功
+            type: integer
+          message:
+            description: 错误内容，默认OK
+            type: string

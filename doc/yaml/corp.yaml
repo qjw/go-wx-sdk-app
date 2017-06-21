@@ -1,0 +1,65 @@
+upload_tmp_media:
+  summary: 上传临时素材
+  tags:
+    - 企业号-素材管理
+  parameters:
+    - name: file
+      in: formData
+      description: 待上传的文件
+      required: true
+      type: file
+    - name: type
+      in: formData
+      description: 类型,image/voice/video/file
+      type: string
+      required: true
+  consumes:
+    - multipart/form-data
+  responses:
+    200:
+      schema:
+        properties:
+          result:
+            description: 错误码，默认0，成功
+            type: integer
+          message:
+            description: 错误内容，默认OK
+            type: string
+get_tmp_media:
+  summary: 获取临时素材
+  tags:
+    - 企业号-素材管理
+  parameters:
+    - in: query
+      name: media_id
+      type: string
+  produces:
+    - image/png
+    - image/jpg
+    - image/jpeg
+    - image/gif
+  responses:
+    200:
+      type: file
+upload_card_logo:
+  summary: 上传卡券logo
+  tags:
+    - 企业号-卡券
+  parameters:
+    - name: file
+      in: formData
+      description: 待上传的文件
+      required: true
+      type: file
+  consumes:
+    - multipart/form-data
+  responses:
+    200:
+      schema:
+        properties:
+          result:
+            description: 错误码，默认0，成功
+            type: integer
+          message:
+            description: 错误内容，默认OK
+            type: string
