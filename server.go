@@ -11,6 +11,7 @@ import (
 	"github.com/qjw/go-wx-sdk/corp"
 	"github.com/qjw/go-wx-sdk/mch"
 	"github.com/qjw/go-wx-sdk/cache"
+	"github.com/qjw/go-wx-sdk/small"
 	"github.com/qjw/go-wx-sdk-app/api/gateway"
 	"github.com/qjw/go-wx-sdk-app/doc"
 	"github.com/qjw/go-wx-sdk-app/static"
@@ -18,6 +19,7 @@ import (
 	apicorp "github.com/qjw/go-wx-sdk-app/api/corp"
 	apimch "github.com/qjw/go-wx-sdk-app/api/mch"
 	apimp "github.com/qjw/go-wx-sdk-app/api/mp"
+	apism "github.com/qjw/go-wx-sdk-app/api/small"
 	"github.com/qjw/kelly"
 	"github.com/qjw/kelly/middleware"
 	"github.com/qjw/kelly/middleware/swagger"
@@ -132,6 +134,31 @@ func GetWxPayFlags() []cli.Flag {
 	}
 }
 
+func GetSmallFlags() []cli.Flag {
+	return []cli.Flag{
+		cli.StringFlag{
+			Name:   "sm_token",
+			Usage:  "小程序token",
+			Value:  "abcdefg",
+		},
+		cli.StringFlag{
+			Name:   "sm_appid",
+			Usage:  "小程序app id",
+			Value:  "123456798123456",
+		},
+		cli.StringFlag{
+			Name:   "sm_secret",
+			Usage:  "小程序app secret",
+			Value:  "123456789123456",
+		},
+		cli.StringFlag{
+			Name:   "sm_encoding_aes_key",
+			Usage:  "小程序消息加密的key",
+			Value:  "abcdefg",
+		},
+	}
+}
+
 func combineSliceArray(first []cli.Flag, lst ...[]cli.Flag) []cli.Flag {
 
 	for _, item := range lst {
@@ -191,13 +218,17 @@ var serverCmd = cli.Command{
 			Name:   "mp_disable",
 			Usage:  "是否禁用公众号接口",
 		},
+		cli.BoolFlag{
+			Name:   "sm_disable",
+			Usage:  "是否禁用小程序接口",
+		},
 	},
 		GetMpFlags(),
 		GetCorpFlags(),
 		GetCorpAgentFlags(),
 		GetCorpKfFlags(),
 		GetWxPayFlags(),
-		//swagger.GetFlags(const_var.ApiPrefix),
+		GetSmallFlags(),
 	),
 }
 
@@ -305,6 +336,23 @@ func initMch(c *cli.Context, grouter kelly.Router) {
 	apimch.InitializeApiRoutes(grouter, context)
 }
 
+func initSM(c *cli.Context, grouter kelly.Router) {
+	context := small.NewContext(
+		&small.Config{
+			Token:          c.String("sm_token"),
+			AppID:          c.String("sm_appid"),
+			AppSecret:      c.String("sm_secret"),
+			EncodingAESKey: c.String("sm_encoding_aes_key"),
+		},
+		cache.NewCache(redisClient),
+	)
+
+	// go的gc不会释放对象smApi
+	smApi := small.NewSmallApi(context)
+	gateway.InitializeSmApiRoutes(grouter.Group("/gateway"), context, smApi)
+	apism.InitializeSmallApiRoutes(grouter,context,smApi)
+}
+
 func server(c *cli.Context) error {
 	InitRedis(c)
 
@@ -361,6 +409,11 @@ func server(c *cli.Context) error {
 	// 微信支付
 	if !c.Bool("mch_disable"){
 		initMch(c, grouter)
+	}
+	//--------------------------------------------------------------------------------------------------------------
+	// 小程序
+	if !c.Bool("sm_disable"){
+		initSM(c, grouter)
 	}
 
 	r.Run(c.String("host") + ":" + strconv.Itoa(c.Int("port")))

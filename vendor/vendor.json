@@ -134,11 +134,29 @@
 			"revisionTime": "2017-06-21T08:40:19Z"
 		},
 		{
-			"checksumSHA1": "Vapq92GEGBCjxcVzP7gPyDLMd10=",
+			"checksumSHA1": "nczyIk7KCjMQoiZXxfEY+tmsKHE=",
 			"path": "github.com/qjw/go-wx-sdk",
-			"revision": "2f4fa35f0208602a8b306cc1bdd395631df07c19",
-			"revisionTime": "2017-06-21T09:59:39Z",
+			"revision": "03ab286f21c0b7076e2dfdb4fe00754950d7bc87",
+			"revisionTime": "2017-11-23T10:13:43Z",
 			"tree": true
+		},
+		{
+			"checksumSHA1": "3BB6dVZrdVeiPP+v8JQWjFINKqE=",
+			"path": "github.com/qjw/kelly",
+			"revision": "8029aba6945b04ca8b04627c5f9df04e1ab9e35f",
+			"revisionTime": "2017-11-01T13:19:42Z"
+		},
+		{
+			"checksumSHA1": "GXIgLWYUk6wEJM1QwAL9ox1xUb8=",
+			"path": "github.com/qjw/kelly/binding",
+			"revision": "8029aba6945b04ca8b04627c5f9df04e1ab9e35f",
+			"revisionTime": "2017-11-01T13:19:42Z"
+		},
+		{
+			"checksumSHA1": "2kejdxvKRwTsgP/vTj8BssVd5x4=",
+			"path": "github.com/qjw/kelly/render",
+			"revision": "8029aba6945b04ca8b04627c5f9df04e1ab9e35f",
+			"revisionTime": "2017-11-01T13:19:42Z"
 		},
 		{
 			"checksumSHA1": "UWjVYmoHlIfHzVIskELHiJQtMOI=",
